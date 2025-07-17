@@ -1,11 +1,36 @@
 import pygame
 import math
+import logging
 import typing
 
 WINDOW_TITLE = "Pychess"
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 DEFAULT_REFRESH_RATE = 60
+
+
+class Logger:
+    def __init__(self):
+        logging.basicConfig(
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            level=logging.INFO
+        )
+        self.logger = logging.getLogger(__name__)
+
+    def debug(self, message: str):
+        self.logger.debug(message)
+
+    def info(self, message: str):
+        self.logger.info(message)
+
+    def warning(self, message: str):
+        self.logger.warning(message)
+
+    def error(self, message: str):
+        self.logger.error(message)
+
+    def critical(self, message: str):
+        self.logger.critical(message)
 
 
 class FontManager:
