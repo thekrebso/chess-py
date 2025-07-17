@@ -92,11 +92,14 @@ class Game:
 class Renderer:
     def __init__(self, game: Game):
         self.game = game
+        self.debug_overlay = False
 
     def render(self):
         self.game.screen.fill((0, 0, 0))
         self.game.screen.blit(self.game.text, self.game.text_rect)
-        self.render_overlay()
+
+        if self.debug_overlay:
+            self.render_overlay()
 
     def render_overlay(self):
         fps = self.game.clock.get_fps()
@@ -107,20 +110,24 @@ class Renderer:
 
 
 class InputHandler:
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, renderer: Renderer):
         self.game = game
+        self.renderer = renderer
 
     def handle_input(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F3:
+                    self.renderer.debug_overlay = not self.renderer.debug_overlay
         return True
 
 
 def main():
     game = Game()
     renderer = Renderer(game)
-    input_handler = InputHandler(game)
+    input_handler = InputHandler(game, renderer)
 
     while True:
         if not input_handler.handle_input():
