@@ -2,6 +2,7 @@ import pygame
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
+DEFAULT_REFRESH_RATE = 60
 
 
 def main():
@@ -10,6 +11,14 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     pygame.display.set_caption("Hello, World!")
+
+    try:
+        refresh_rate = pygame.display.get_current_refresh_rate()
+        print(f"Current monitor refresh rate: {refresh_rate} Hz")
+    except:
+        refresh_rate = DEFAULT_REFRESH_RATE
+        print(
+            f"Failed to get refresh rate, using default: {DEFAULT_REFRESH_RATE} Hz")
 
     font = pygame.font.Font(None, 74)
     text = font.render("Hello, World!", True, (255, 255, 255))
@@ -25,7 +34,7 @@ def main():
         screen.blit(text, text_rect)
 
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(refresh_rate)
 
 
 if __name__ == "__main__":
