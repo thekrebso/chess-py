@@ -1,9 +1,30 @@
 import pygame
 import math
+import typing
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 DEFAULT_REFRESH_RATE = 60
+
+
+class FontManager:
+    def __init__(self):
+        self.font_sizes = {
+            "h1": 96,
+            "h2": 72,
+            "h3": 48,
+            "h4": 36,
+            "h5": 24,
+            "h6": 18,
+            "normal": 28
+        }
+
+        self.fonts = {
+            key: pygame.font.Font(None, size) for key, size in self.font_sizes.items()
+        }
+
+    def get_font(self, style: str) -> pygame.font.Font:
+        return self.fonts.get(style, self.fonts["normal"])
 
 
 class Game:
@@ -27,9 +48,10 @@ class Game:
                 print(
                     f"Failed to get refresh rate, using default: {DEFAULT_REFRESH_RATE} Hz")
 
-        self.font = pygame.font.Font(None, 74)
-        self.font_fps = pygame.font.Font(None, 24)
-        self.text = self.font.render("Hello, World!", True, (255, 255, 255))
+        self.font_manager = FontManager()
+
+        self.text = self.font_manager.get_font("h1").render(
+            "Hello, World!", True, (255, 255, 255))
         self.text_rect = self.text.get_rect(
             center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
 
@@ -48,7 +70,7 @@ class Renderer:
 
     def render_overlay(self):
         fps = self.game.clock.get_fps()
-        fps_text = self.game.font_fps.render(
+        fps_text = self.game.font_manager.get_font("h5").render(
             f"{math.floor(fps)} / {self.game.refresh_rate}", True, (255, 255, 255))
         fps_text_rect = fps_text.get_rect()
         self.game.screen.blit(fps_text, fps_text_rect)
