@@ -100,6 +100,9 @@ class Game:
         self.text_rect = self.text.get_rect(
             center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
 
+    def update(self, dt: float):
+        self.dt = dt
+
     def cleanup(self):
         pygame.quit()
 
@@ -145,14 +148,14 @@ def main():
     input_handler = InputHandler(game)
 
     while True:
+        dt = game.clock.tick(game.refresh_rate)
         if not input_handler.handle_input():
             game.cleanup()
             return
 
+        game.update(dt)
         renderer.render()
-
         pygame.display.flip()
-        game.clock.tick(game.refresh_rate)
 
 
 if __name__ == "__main__":
