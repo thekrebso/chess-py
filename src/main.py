@@ -50,13 +50,13 @@ class Logger:
 class FontManager:
     def __init__(self):
         self.font_sizes = {
-            "h1": 96,
-            "h2": 72,
-            "h3": 48,
-            "h4": 36,
-            "h5": 24,
-            "h6": 18,
-            "normal": 28
+            "H1": 96,
+            "H2": 72,
+            "H3": 48,
+            "H4": 36,
+            "H5": 24,
+            "H6": 18,
+            "NORMAL": 28
         }
 
         self.fonts = {
@@ -64,7 +64,7 @@ class FontManager:
         }
 
     def get_font(self, style: str) -> pygame.font.Font:
-        return self.fonts.get(style, self.fonts["normal"])
+        return self.fonts.get(style, self.fonts["NORMAL"])
 
 
 class Game:
@@ -95,7 +95,7 @@ class Game:
 
         self.font_manager = FontManager()
 
-        self.text = self.font_manager.get_font("h1").render(
+        self.text = self.font_manager.get_font("H1").render(
             "Hello, World!", True, (255, 255, 255))
         self.text_rect = self.text.get_rect(
             center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
@@ -114,13 +114,12 @@ class Renderer:
     def render(self):
         self.game.screen.fill((0, 0, 0))
         self.game.screen.blit(self.game.text, self.game.text_rect)
-
         if self.game.debug_overlay:
             self.render_overlay()
 
     def render_overlay(self):
         fps = self.game.clock.get_fps()
-        fps_text = self.game.font_manager.get_font("h5").render(
+        fps_text = self.game.font_manager.get_font("H5").render(
             f"{math.floor(fps)} / {self.game.refresh_rate}", True, (255, 255, 255))
         fps_text_rect = fps_text.get_rect()
         self.game.screen.blit(fps_text, fps_text_rect)
@@ -130,7 +129,7 @@ class InputHandler:
     def __init__(self, game: Game):
         self.game = game
 
-    def handle_input(self):
+    def handle_input(self) -> bool:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
