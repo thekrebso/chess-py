@@ -55,6 +55,8 @@ class FontManager:
 
 class Game:
     def __init__(self):
+        self.logger = Logger()
+
         pygame.init()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -62,16 +64,18 @@ class Game:
 
         try:
             self.refresh_rate = pygame.display.get_current_refresh_rate()
-            print(f"Current monitor refresh rate: {self.refresh_rate} Hz")
+            self.logger.info(
+                f"Current monitor refresh rate: {self.refresh_rate} Hz")
         except:
             try:
                 refresh_rates = pygame.display.get_desktop_refresh_rates()
                 self.refresh_rate = max(
                     refresh_rates) if refresh_rates else DEFAULT_REFRESH_RATE
-                print(f"Fastest monitor refresh rate: {self.refresh_rate} Hz")
+                self.logger.info(
+                    f"Fastest monitor refresh rate: {self.refresh_rate} Hz")
             except:
                 self.refresh_rate = DEFAULT_REFRESH_RATE
-                print(
+                self.logger.warning(
                     f"Failed to get refresh rate, using default: {DEFAULT_REFRESH_RATE} Hz")
 
         self.font_manager = FontManager()
