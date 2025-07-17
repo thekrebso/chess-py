@@ -70,6 +70,7 @@ class FontManager:
 class Game:
     def __init__(self):
         self.logger = Logger()
+        self.debug_overlay = False
 
         pygame.init()
         self.clock = pygame.time.Clock()
@@ -106,13 +107,12 @@ class Game:
 class Renderer:
     def __init__(self, game: Game):
         self.game = game
-        self.debug_overlay = False
 
     def render(self):
         self.game.screen.fill((0, 0, 0))
         self.game.screen.blit(self.game.text, self.game.text_rect)
 
-        if self.debug_overlay:
+        if self.game.debug_overlay:
             self.render_overlay()
 
     def render_overlay(self):
@@ -124,9 +124,8 @@ class Renderer:
 
 
 class InputHandler:
-    def __init__(self, game: Game, renderer: Renderer):
+    def __init__(self, game: Game):
         self.game = game
-        self.renderer = renderer
 
     def handle_input(self):
         for event in pygame.event.get():
@@ -134,7 +133,7 @@ class InputHandler:
                 return False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F3:
-                    self.renderer.debug_overlay = not self.renderer.debug_overlay
+                    self.game.debug_overlay = not self.game.debug_overlay
                 if event.key == pygame.K_F4:
                     self.game.logger.toggle_level()
         return True
@@ -143,7 +142,7 @@ class InputHandler:
 def main():
     game = Game()
     renderer = Renderer(game)
-    input_handler = InputHandler(game, renderer)
+    input_handler = InputHandler(game)
 
     while True:
         if not input_handler.handle_input():
