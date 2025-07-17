@@ -16,9 +16,14 @@ def main():
         refresh_rate = pygame.display.get_current_refresh_rate()
         print(f"Current monitor refresh rate: {refresh_rate} Hz")
     except:
-        refresh_rate = DEFAULT_REFRESH_RATE
-        print(
-            f"Failed to get refresh rate, using default: {DEFAULT_REFRESH_RATE} Hz")
+        try:
+            refresh_rates = pygame.display.get_desktop_refresh_rates()
+            refresh_rate = max(refresh_rates) if refresh_rates else DEFAULT_REFRESH_RATE
+            print(f"Fastest monitor refresh rate: {refresh_rate} Hz")
+        except:
+            refresh_rate = DEFAULT_REFRESH_RATE
+            print(
+                f"Failed to get refresh rate, using default: {DEFAULT_REFRESH_RATE} Hz")
 
     font = pygame.font.Font(None, 74)
     font_fps = pygame.font.Font(None, 24)
