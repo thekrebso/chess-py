@@ -2,8 +2,9 @@ import pygame
 import math
 import typing
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+WINDOW_TITLE = "Pychess"
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
 DEFAULT_REFRESH_RATE = 60
 
 
@@ -31,8 +32,8 @@ class Game:
     def __init__(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("Hello, World!")
+        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        pygame.display.set_caption(WINDOW_TITLE)
 
         try:
             self.refresh_rate = pygame.display.get_current_refresh_rate()
@@ -53,7 +54,7 @@ class Game:
         self.text = self.font_manager.get_font("h1").render(
             "Hello, World!", True, (255, 255, 255))
         self.text_rect = self.text.get_rect(
-            center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+            center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
 
     def cleanup(self):
         pygame.quit()
