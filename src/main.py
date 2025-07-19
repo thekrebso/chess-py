@@ -8,6 +8,10 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 DEFAULT_REFRESH_RATE = 60
 DEFAULT_LOGGING_LEVEL = logging.INFO
+PALETTE = {
+    "BLACK": (0, 0, 0),
+    "WHITE": (255, 255, 255)
+}
 
 
 class Logger:
@@ -96,7 +100,7 @@ class Game:
         self.font_manager = FontManager()
 
         self.text = self.font_manager.get_font("H1").render(
-            "Hello, World!", True, (255, 255, 255))
+            "Hello, World!", True, PALETTE["WHITE"])
         self.text_rect = self.text.get_rect(
             center=(WINDOW_WIDTH/2, WINDOW_HEIGHT/2))
 
@@ -112,7 +116,7 @@ class Renderer:
         self.game = game
 
     def render(self):
-        self.game.screen.fill((0, 0, 0))
+        self.game.screen.fill(PALETTE["BLACK"])
         self.game.screen.blit(self.game.text, self.game.text_rect)
         if self.game.debug_overlay:
             self.render_overlay()
@@ -120,7 +124,7 @@ class Renderer:
     def render_overlay(self):
         fps = self.game.clock.get_fps()
         fps_text = self.game.font_manager.get_font("H5").render(
-            f"{math.floor(fps)} / {self.game.refresh_rate}", True, (255, 255, 255))
+            f"{math.floor(fps)} / {self.game.refresh_rate}", True, PALETTE["WHITE"])
         fps_text_rect = fps_text.get_rect()
         self.game.screen.blit(fps_text, fps_text_rect)
 
